@@ -1,0 +1,8 @@
+﻿{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "id": "shelter-west", "properties": { "source": "simulation", "name": "가상 대피 후보 A · 서측", "entrance": "가상 정문 · 무단차 설정", "accessibility": "가상 경사로 설정", "operation": null }, "geometry": { "type": "Point", "coordinates": [127.0258,37.4980] } },
+    { "type": "Feature", "id": "shelter-north", "properties": { "source": "simulation", "name": "가상 대피 후보 B · 북측", "entrance": null, "accessibility": null, "operation": "가상 운영 중 설정" }, "geometry": { "type": "Point", "coordinates": [127.0290,37.5005] } },
+    { "type": "Feature", "id": "shelter-east", "properties": { "source": "simulation", "name": "가상 대피 후보 C · 동측", "entrance": null, "accessibility": null, "operation": null }, "geometry": { "type": "Point", "coordinates": [127.0320,37.4980] } }
+  ]
+}

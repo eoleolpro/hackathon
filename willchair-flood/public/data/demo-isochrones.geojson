@@ -1,0 +1,9 @@
+﻿{
+  "type": "FeatureCollection",
+  "source": "simulation",
+  "features": [
+    { "type": "Feature", "id": "demo-5", "properties": { "source": "simulation", "minutes": 5, "origin": [127.0255,37.498] }, "geometry": { "type": "Polygon", "coordinates": [[[127.0250,37.4968],[127.0284,37.4968],[127.0284,37.4992],[127.0250,37.4992],[127.0250,37.4968]]] } },
+    { "type": "Feature", "id": "demo-10", "properties": { "source": "simulation", "minutes": 10, "origin": [127.0255,37.498] }, "geometry": { "type": "Polygon", "coordinates": [[[127.0240,37.4958],[127.0305,37.4958],[127.0305,37.5012],[127.0240,37.5012],[127.0240,37.4958]]] } },
+    { "type": "Feature", "id": "demo-15", "properties": { "source": "simulation", "minutes": 15, "origin": [127.0255,37.498] }, "geometry": { "type": "Polygon", "coordinates": [[[127.0225,37.4945],[127.0335,37.4945],[127.0335,37.5025],[127.0225,37.5025],[127.0225,37.4945]]] } }
+  ]
+}

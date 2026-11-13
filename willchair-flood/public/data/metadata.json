@@ -1,0 +1,45 @@
+{
+  "timestampMeaning": "local-file-modified",
+  "sources": [
+    {
+      "id": "flood",
+      "name": "시간별 가상 침수",
+      "paths": [
+        "data/flood-timeline/0.geojson",
+        "data/flood-timeline/15.geojson",
+        "data/flood-timeline/30.geojson",
+        "data/flood-timeline/45.geojson",
+        "data/flood-timeline/60.geojson"
+      ],
+      "source": "simulation",
+      "updatedAt": "2026-11-13T17:13:48.709Z"
+    },
+    {
+      "id": "routes",
+      "name": "사전 준비된 시연 경로",
+      "paths": [
+        "data/demo-routes.geojson"
+      ],
+      "source": "simulation",
+      "updatedAt": "2026-11-13T17:01:32.001Z"
+    },
+    {
+      "id": "isochrones",
+      "name": "가상 시간 범위",
+      "paths": [
+        "data/demo-isochrones.geojson"
+      ],
+      "source": "simulation",
+      "updatedAt": "2026-11-13T17:27:11.917Z"
+    },
+    {
+      "id": "shelters",
+      "name": "가상 대피 후보",
+      "paths": [
+        "data/demo-shelters.geojson"
+      ],
+      "source": "simulation",
+      "updatedAt": "2026-11-13T17:27:11.930Z"
+    }
+  ]
+}

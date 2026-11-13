@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Browser QA outputs
+playwright-report/
+test-results/
+artifacts/quality/

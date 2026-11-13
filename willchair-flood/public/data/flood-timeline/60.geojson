@@ -1,0 +1,129 @@
+﻿{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "scenarios":  [
+                                                              "집중호우",
+                                                              "침수 발생"
+                                                          ],
+                                            "description":  "60분 시점의 수작업 가상 Polygon입니다. 지형 기반 예측·실제 관측·buffer 계산 결과가 아닙니다.",
+                                            "name":  "강남역 서측 가상 침수 구역 · 60분",
+                                            "source":  "simulation",
+                                            "minute":  60
+                                        },
+                         "id":  "gangnam-west-60",
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  [
+                                                                      127.0245,
+                                                                      37.4964
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4964
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.5002
+                                                                  ],
+                                                                  [
+                                                                      127.0245,
+                                                                      37.5002
+                                                                  ],
+                                                                  [
+                                                                      127.0245,
+                                                                      37.4964
+                                                                  ]
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "scenarios":  [
+                                                              "침수 발생"
+                                                          ],
+                                            "description":  "60분 시점의 수작업 가상 Polygon입니다. 지형 기반 예측·실제 관측·buffer 계산 결과가 아닙니다.",
+                                            "name":  "강남역 동측 가상 침수 구역 · 60분",
+                                            "source":  "simulation",
+                                            "minute":  60
+                                        },
+                         "id":  "gangnam-east-60",
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4962
+                                                                  ],
+                                                                  [
+                                                                      127.0307,
+                                                                      37.4962
+                                                                  ],
+                                                                  [
+                                                                      127.0307,
+                                                                      37.4992
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4992
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4962
+                                                                  ]
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "scenarios":  [
+                                                              "침수 발생"
+                                                          ],
+                                            "description":  "60분 시점의 수작업 가상 Polygon입니다. 지형 기반 예측·실제 관측·buffer 계산 결과가 아닙니다.",
+                                            "name":  "강남역 남측 가상 침수 구역 · 60분",
+                                            "source":  "simulation",
+                                            "minute":  60
+                                        },
+                         "id":  "gangnam-south-60",
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  [
+                                                                      127.0266,
+                                                                      37.4947
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4947
+                                                                  ],
+                                                                  [
+                                                                      127.0285,
+                                                                      37.4963
+                                                                  ],
+                                                                  [
+                                                                      127.0266,
+                                                                      37.4963
+                                                                  ],
+                                                                  [
+                                                                      127.0266,
+                                                                      37.4947
+                                                                  ]
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     }
+                 ],
+    "description":  "시간별 시나리오는 지형 기반 예측이 아닌 가상 데이터입니다.",
+    "minute":  60,
+    "source":  "simulation",
+    "type":  "FeatureCollection"
+}

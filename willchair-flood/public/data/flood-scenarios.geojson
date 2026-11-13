@@ -1,0 +1,21 @@
+﻿{
+  "type": "FeatureCollection",
+  "source": "simulation",
+  "features": [
+    {
+      "type": "Feature", "id": "gangnam-west", 
+      "properties": { "source": "simulation", "name": "강남역 서측 가상 침수 구역", "description": "서측 블록의 침수를 가정한 임의 영역입니다. 실제 관측·예측 정보가 아닙니다.", "scenarios": ["집중호우", "침수 발생"] },
+      "geometry": { "type": "Polygon", "coordinates": [[[127.0245,37.4972],[127.0267,37.4972],[127.0267,37.4990],[127.0245,37.4990],[127.0245,37.4972]]] }
+    },
+    {
+      "type": "Feature", "id": "gangnam-east",
+      "properties": { "source": "simulation", "name": "강남역 동측 가상 침수 구역", "description": "동측 블록의 침수를 가정한 임의 영역입니다. 실제 관측·예측 정보가 아닙니다.", "scenarios": ["침수 발생"] },
+      "geometry": { "type": "Polygon", "coordinates": [[[127.0285,37.4970],[127.0307,37.4970],[127.0307,37.4988],[127.0285,37.4988],[127.0285,37.4970]]] }
+    },
+    {
+      "type": "Feature", "id": "gangnam-south",
+      "properties": { "source": "simulation", "name": "강남역 남측 가상 침수 구역", "description": "남측 블록의 침수를 가정한 임의 영역입니다. 실제 관측·예측 정보가 아닙니다.", "scenarios": ["침수 발생"] },
+      "geometry": { "type": "Polygon", "coordinates": [[[127.0266,37.4947],[127.0285,37.4947],[127.0285,37.4963],[127.0266,37.4963],[127.0266,37.4947]]] }
+    }
+  ]
+}
