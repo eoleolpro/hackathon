@@ -1,3 +1,8 @@
 ﻿export function RescueSettings() {
-  return <section id="rescue-settings" className="rescue-card rescue-settings" aria-labelledby="settings-title"><div className="rescue-section-heading"><h2 id="settings-title">설정 및 이용 안내</h2><span className="rescue-badge">저장하는 위치 없음</span></div><details open><summary>위치정보 이용·저장 정책</summary><p>위치는 긴급 모드 시작 후 브라우저 권한이 허용될 때만 수신합니다. 앱은 좌표·공유 메시지·연락처를 서버, localStorage, 데이터베이스, 분석 로그에 저장하지 않습니다. 이번 버전은 사용자 설정도 저장하지 않습니다.</p><p>모드 종료·화면 해제 시 위치 관찰과 앱 메모리의 위치·공유 메시지를 정리합니다. 공유한 메시지나 기기의 클립보드 내용은 앱에서 회수할 수 없습니다.</p><p>OpenStreetMap 지도는 외부 타일 서비스입니다. 지도에 표시하는 지역의 타일 요청이 공급자에 전달됩니다. 연락 대상에게는 공유 버튼을 누른 뒤 직접 대상을 선택해야 정보가 전달됩니다.</p></details><details><summary>긴급 연락 및 서비스 사용 방법</summary><ol><li>긴급 위치 모드를 시작하고 위치 권한을 허용합니다.</li><li>위도·경도·정확도·측정 시각을 확인합니다.</li><li>필요하면 현재 위치를 공유하고 연락 대상을 직접 선택합니다.</li><li>119 전화 연결은 기기 전화 앱을 엽니다. 앱은 신고 접수나 구조기관 연계를 확인하지 않습니다.</li><li>위치 수신이 필요하지 않으면 긴급 모드를 종료합니다.</li></ol></details><details><summary>브라우저 호환성과 한계</summary><p>위치 수신은 HTTPS 또는 개발용 localhost에서 지원 브라우저와 사용자 권한이 필요합니다. Web Share나 자동 복사를 지원하지 않으면 메시지를 직접 선택해 복사할 수 있습니다.</p><p>화면 잠금·백그라운드·배터리 절약 상태에서는 지속적인 위치 갱신을 보장하지 않습니다. 기기의 위치 서비스는 GPS 외 신호를 사용할 수 있으며 정확도 수치는 실제 오차를 완전히 보장하지 않습니다.</p><p>이 서비스는 개발용 프로토타입이며 실제 안전 장비로 사용 가능한 제품이라는 뜻이 아닙니다. 실제 구명조끼 착용·센서·구조기관 자동 연계는 구현하지 않았습니다.</p></details></section>
+  return <details id="rescue-settings" className="rescue-settings"><summary>이용·개인정보 안내</summary>
+    <p>위치 수신은 HTTPS(개발용 localhost 예외)와 사용자 권한이 필요합니다. 공유 기능과 복사는 브라우저 정책에 따라 제한될 수 있습니다.</p>
+    <p>좌표·메시지·연락처는 서버, localStorage, 분석 도구, 콘솔에 저장하지 않습니다. 지도 표시 지역의 타일 요청은 OpenStreetMap에 전달됩니다.</p>
+    <p>종료·페이지 이탈 시 위치 관찰과 현재 위치·공유 내용을 정리합니다. 이미 공유된 내용·클립보드·브라우저 캐시는 앱에서 회수할 수 없습니다.</p>
+    <p>위치 정확도는 실제 오차를 보장하지 않습니다. 구명조끼 탈착은 착용 확인이 아니며, 실제 센서는 연결하지 않았습니다. 119 버튼은 전화 앱만 열고 신고 접수를 확인하지 않습니다.</p>
+  </details>
 }

@@ -1,12 +1,13 @@
 ﻿import { useCallback, useEffect, useRef, useState } from 'react'
 import { copyShareSnapshot, createShareSnapshot, openSystemShare } from '../services/shareService'
-import type { LocationSample, RecipientReceiptStatus, ShareSnapshot, ShareStatus } from '../types/location'
+import type { CopyTarget, LocationSample, RecipientReceiptStatus, ShareSnapshot, ShareStatus } from '../types/location'
 export function useLocationShare() {
   const [snapshot, setSnapshot] = useState<ShareSnapshot | null>(null)
   const [status, setStatus] = useState<ShareStatus>('idle')
+  const [copyTarget, setCopyTarget] = useState<CopyTarget>('message')
   const generation = useRef(0)
   const busy = useRef(false)
-  const reset = useCallback(() => { generation.current += 1; busy.current = false; setSnapshot(null); setStatus('idle') }, [])
+  const reset = useCallback(() => { generation.current += 1; busy.current = false; setSnapshot(null); setStatus('idle'); setCopyTarget('message') }, [])
   useEffect(() => () => { generation.current += 1 }, [])
   const share = (sample: LocationSample) => {
     if (busy.current) return
@@ -22,15 +23,17 @@ export function useLocationShare() {
       setStatus(result.status)
     })
   }
-  const copy = () => {
+  const copy = (target: CopyTarget = 'message') => {
     if (!snapshot || busy.current) return
     const session = generation.current
     busy.current = true
-    void copyShareSnapshot(snapshot).then(ok => {
+    setCopyTarget(target)
+    setStatus('copying')
+    void copyShareSnapshot(snapshot, target).then(ok => {
       if (generation.current !== session) return
       busy.current = false
       setStatus(ok ? 'copied' : 'copy-failed')
     })
   }
-  return { snapshot, status, receiptStatus: 'unknown' as RecipientReceiptStatus, share, copy, reset }
+  return { snapshot, status, copyTarget, receiptStatus: 'unknown' as RecipientReceiptStatus, share, copy, reset }
 }

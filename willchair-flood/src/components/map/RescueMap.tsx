@@ -2,6 +2,7 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import { LocateFixed } from 'lucide-react'
 import 'leaflet/dist/leaflet.css'
+import './map.css'
 import { CurrentLocationLayer } from './CurrentLocationLayer'
 import { useMapTiles } from '../../hooks/useMapTiles'
 import { MapLoadingStatus } from './MapLoadingStatus'

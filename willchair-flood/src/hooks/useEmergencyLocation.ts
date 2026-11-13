@@ -19,7 +19,7 @@ export function useEmergencyLocation() {
     clear()
     setState({ ...initial, status: 'stopped' })
   }, [clear])
-  const start = useCallback(() => {
+  const request = useCallback(() => {
     clear()
     const supportError = locationSupportError()
     if (supportError) { setState({ ...initial, status: 'error', errorCode: supportError }); return }
@@ -49,7 +49,14 @@ export function useEmergencyLocation() {
       setState({ ...initial, status: 'error', errorCode: 'unavailable' })
     }
   }, [clear])
+  const start = useCallback(() => { if (!active.current) request() }, [request])
+  const retry = useCallback(() => request(), [request])
   useEffect(() => clear, [clear])
+  useEffect(() => {
+    const leave = () => stop()
+    window.addEventListener('pagehide', leave)
+    return () => window.removeEventListener('pagehide', leave)
+  }, [stop])
   useEffect(() => {
     if (!state.active) return
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
@@ -60,5 +67,5 @@ export function useEmergencyLocation() {
     document.addEventListener('visibilitychange', update)
     return () => document.removeEventListener('visibilitychange', update)
   }, [])
-  return { ...state, now, background, start, stop }
+  return { ...state, now, background, start, retry, stop }
 }

@@ -1,6 +1,6 @@
-﻿import type { DeviceEventAdapter } from './deviceAdapter'
+﻿import type { DeviceEventAdapter, MockDeviceControls } from './deviceAdapter'
 import type { DeviceEvent, DeviceSnapshot, StorageState } from '../types/device'
-export class MockDeviceAdapter implements DeviceEventAdapter {
+export class MockDeviceAdapter implements DeviceEventAdapter, MockDeviceControls {
   readonly id = 'mock-storage-sensor'
   private snapshot: DeviceSnapshot = { storage: 'UNKNOWN', connection: 'SIMULATION', source: 'simulation', occurredAt: null }
   private listeners = new Set<(event: DeviceEvent) => void>()

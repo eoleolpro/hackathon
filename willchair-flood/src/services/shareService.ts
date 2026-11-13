@@ -1,4 +1,4 @@
-﻿import type { LocationSample, LocationShareResult, ShareSnapshot } from '../types/location'
+﻿import type { CopyTarget, LocationSample, LocationShareResult, ShareSnapshot } from '../types/location'
 import { formatLocationTime, locationQuality } from '../utils/location'
 export function openStreetMapLink(sample: LocationSample) {
   return `https://www.openstreetmap.org/?mlat=${sample.latitude.toFixed(6)}&mlon=${sample.longitude.toFixed(6)}#map=18/${sample.latitude.toFixed(6)}/${sample.longitude.toFixed(6)}`
@@ -19,7 +19,7 @@ export function createShareSnapshot(sample: LocationSample, now = Date.now()): S
     '이 메시지는 작성 시점 좌표의 스냅샷이며 실시간 추적 링크가 아닙니다.',
     '자동 구조 요청 또는 신고 접수 확인이 아닙니다.',
   ].join('\n')
-  return { sample: captured, message, createdAt: now }
+  return { sample: captured, message, link: openStreetMapLink(captured), createdAt: now }
 }
 export async function openSystemShare(snapshot: ShareSnapshot): Promise<LocationShareResult> {
   if (!navigator.share) return { status: 'unsupported' }
@@ -30,7 +30,7 @@ export async function openSystemShare(snapshot: ShareSnapshot): Promise<Location
     return { status: cause instanceof DOMException && cause.name === 'AbortError' ? 'cancelled' : 'error' }
   }
 }
-export async function copyShareSnapshot(snapshot: ShareSnapshot): Promise<boolean> {
+export async function copyShareSnapshot(snapshot: ShareSnapshot, target: CopyTarget = 'message'): Promise<boolean> {
   if (!window.isSecureContext || !navigator.clipboard?.writeText) return false
-  try { await navigator.clipboard.writeText(snapshot.message); return true } catch { return false }
+  try { await navigator.clipboard.writeText(target === 'link' ? snapshot.link : snapshot.message); return true } catch { return false }
 }

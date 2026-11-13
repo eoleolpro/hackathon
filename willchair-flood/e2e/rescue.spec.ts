@@ -70,6 +70,7 @@ test('보관함 시뮬레이션은 자동 위치 요청 없이 제안하고 착�
   await mockLocation(page)
   await page.goto('/')
   await expect(page.locator('.storage-state')).toContainText('UNKNOWN')
+  await page.locator('.device-test-controls summary').click()
   await page.getByRole('button', { name: '보관함에서 분리 · 시뮬레이션', exact: true }).click()
   await expect(page.locator('.device-proposal')).toBeVisible()
   expect(await page.evaluate(() => (window as unknown as { geoTest: { watches: number } }).geoTest.watches)).toBe(0)
@@ -144,13 +145,23 @@ test('공유 미지원 시 명시적 복사와 실패 시 수동 선택 제공',
   await page.getByRole('button', { name: '현재 위치 공유', exact: true }).click()
   await expect(page.locator('.share-status')).toContainText('Web Share를 지원하지 않습니다')
   expect(await page.evaluate(() => (window as unknown as { copiedMessages: string[] }).copiedMessages.length)).toBe(0)
+  await page.getByRole('button', { name: '위치 링크 복사', exact: true }).click()
+  await expect(page.locator('.share-status')).toContainText('클립보드에 복사했습니다')
+  const copied = await page.evaluate(() => (window as unknown as { copiedMessages: string[] }).copiedMessages)
+  expect(copied).toHaveLength(1)
+  expect(copied[0]).toMatch(/^https:/)
+  expect(copied[0]).not.toContain('WILLCHAIR')
+  await page.locator('.share-preview summary').click()
   await page.getByRole('button', { name: '공유 메시지 복사', exact: true }).click()
   await expect(page.locator('.share-status')).toContainText('클립보드에 복사했습니다')
-  expect(await page.evaluate(() => (window as unknown as { copiedMessages: string[] }).copiedMessages.length)).toBe(1)
+  expect(await page.evaluate(() => (window as unknown as { copiedMessages: string[] }).copiedMessages.length)).toBe(2)
   await page.evaluate(() => { Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true }) })
   await page.getByRole('button', { name: '공유 메시지 복사', exact: true }).click()
   await expect(page.locator('.share-status')).toContainText('직접 선택해 복사')
   await expect(page.locator('#share-message')).toHaveAttribute('readonly', '')
+  await page.getByRole('button', { name: '위치 링크 복사', exact: true }).click()
+  await expect(page.locator('#share-link')).toBeVisible()
+  await expect(page.locator('#share-link')).toHaveValue(/openstreetmap.org/)
 })
 
 test('공유 취소와 오류를 완료로 표현하지 않음', async ({ page }) => {
@@ -265,4 +276,73 @@ test('정상 화면 콘솔 오류와 불필요한 기본 아이콘 요청 없음
   const icon = await page.request.get('/rescue-icon.svg')
   expect(icon.status()).toBe(200)
   expect(errors).toEqual([])
+})
+
+test('중복 시작 차단·명시적 재요청·페이지 이탈 정리', async ({ page }) => {
+  await mockLocation(page)
+  await page.goto('/')
+  const result = await page.evaluate(async () => {
+    const { default: React } = await import('/node_modules/.vite/deps/react.js')
+    const { default: ReactDOM } = await import('/node_modules/.vite/deps/react-dom_client.js')
+    const { useEmergencyLocation } = await import('/src/hooks/useEmergencyLocation.ts')
+    const node = document.createElement('div'); document.body.append(node)
+    let api: ReturnType<typeof useEmergencyLocation>
+    function Harness() { api = useEmergencyLocation(); return null }
+    const root = ReactDOM.createRoot(node); root.render(React.createElement(Harness))
+    await new Promise(resolve => setTimeout(resolve, 50))
+    const state = (window as unknown as { geoTest: { watches: number; clears: number } }).geoTest
+    const baseline = state.watches
+    api!.start(); api!.start(); api!.start()
+    const first = state.watches - baseline
+    api!.retry(); api!.start()
+    const second = state.watches - baseline
+    root.unmount()
+    return { first, second, clears: state.clears }
+  })
+  expect(result.first).toBe(1)
+  expect(result.second).toBe(2)
+  expect(result.clears).toBeGreaterThanOrEqual(2)
+  await page.getByRole('button', { name: '긴급 위치 모드 시작', exact: true }).click()
+  await expect(page.getByTestId('rescue-latitude')).toHaveText('37.498000')
+  await page.evaluate(() => window.dispatchEvent(new Event('pagehide')))
+  await expect(page.locator('.rescue-active-bar')).toHaveCount(0)
+  await expect(page.getByTestId('rescue-latitude')).toHaveText('미확인')
+  await expect(page.getByRole('button', { name: '현재 위치 공유', exact: true })).toBeDisabled()
+})
+
+test('위치가 더 들어오지 않으면 60초 후 오래됨으로 전환', async ({ page }) => {
+  await page.clock.install()
+  await mockLocation(page)
+  await page.goto('/')
+  await page.getByRole('button', { name: '긴급 위치 모드 시작', exact: true }).click()
+  await expect(page.getByTestId('rescue-latitude')).toHaveText('37.498000')
+  await page.clock.fastForward(61000)
+  await expect(page.locator('.rescue-location-status')).toContainText('오래됨')
+  await expect(page.locator('.location-card')).toContainText('오래된 위치정보입니다')
+})
+
+test('핵심 화면 순서와 이전 시뮬레이션 진입점 제거', async ({ page }) => {
+  const oldDataRequests: string[] = []
+  page.on('request', request => { if (/\.(geojson)(?:\?|$)/.test(request.url())) oldDataRequests.push('legacy-data') })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/?mode=flood')
+  await expect(page.locator('.rescue-brand')).toContainText('WILLCHAIR RESCUE')
+  await expect(page.getByRole('button', { name: '긴급 위치 모드 시작', exact: true })).toBeVisible()
+  for (const selector of ['.workspace','.route-options','.timeline-panel','.reach-controls','.shelter-panel','.rescue-flood-tools']) await expect(page.locator(selector)).toHaveCount(0)
+  await expect(page.locator('.device-test-controls')).not.toHaveAttribute('open')
+  const tops = await page.evaluate(() => ['.rescue-header','.device-panel','.location-card','.rescue-map-card','.share-card','.rescue-phone'].map(selector => document.querySelector(selector)!.getBoundingClientRect().top))
+  for (let i = 1; i < tops.length; i++) expect(tops[i]).toBeGreaterThan(tops[i - 1]!)
+  expect(oldDataRequests).toEqual([])
+})
+
+test('타일 일부 실패 안내 유지 및 재시도', async ({ page }) => {
+  let failed = false
+  await page.route('https://tile.openstreetmap.org/**', async route => { if (!failed) { failed = true; await route.abort() } else await route.continue() })
+  await page.goto('/')
+  await expect(page.locator('.map-tile-status [role=alert]')).toContainText('로드 실패')
+  await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible()
+  await expect(page.locator('.map-tile-status [role=alert]')).toContainText('로드 실패')
+  await page.unroute('https://tile.openstreetmap.org/**')
+  await page.getByRole('button', { name: '지도 타일 다시 시도', exact: true }).click()
+  await expect(page.locator('.map-tile-status')).toContainText('표시 완료')
 })

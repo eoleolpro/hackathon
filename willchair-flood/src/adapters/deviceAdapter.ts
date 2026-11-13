@@ -6,3 +6,8 @@ export interface DeviceEventAdapter {
   subscribe(listener: (event: DeviceEvent) => void): () => void
   disconnect(): void
 }
+
+export interface MockDeviceControls {
+  simulateStorage(state: import('../types/device').StorageState): void
+  simulateFailure(): void
+}

@@ -1,20 +1,16 @@
 {
-  "name": "willchair-flood",
+  "name": "willchair-rescue",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/update-data-metadata.mjs && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
-    "data:metadata": "node scripts/update-data-metadata.mjs"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@turf/boolean-intersects": "^7.4.0",
-    "@turf/boolean-point-in-polygon": "^7.4.0",
-    "@turf/length": "^7.4.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.72.0",
     "react": "^19.3.1",
