@@ -6,7 +6,7 @@ import AxeBuilder from '@axe-core/playwright'
 test.beforeEach(async ({ page }) => {
   runtimeErrors.set(page, [])
   page.on('pageerror', error => { if (!error.message.includes('QA_INJECTED_MAP_ERROR')) runtimeErrors.get(page)!.push(error.message) })
-  await page.goto('/')
+  await page.goto('/?mode=flood')
   await expect(page.locator('.shelter-card')).toHaveCount(3)
 })
 
@@ -227,7 +227,7 @@ test('지도 렌더 오류 경계가 다른 UI를 유지하고 재시도로 복�
 test('모바일 터치 에뮬레이션: 지도 탭과 드래그', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
   const page = await context.newPage()
-  await page.goto('http://localhost:5173/')
+  await page.goto('http://localhost:5173/?mode=flood')
   const map = page.locator('.leaflet-map')
   await map.scrollIntoViewIfNeeded()
   await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible()
