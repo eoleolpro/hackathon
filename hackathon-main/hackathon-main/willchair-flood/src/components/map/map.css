@@ -1,0 +1,14 @@
+﻿/* 기존 Leaflet 타일 상태·오류 경계가 공유하는 최소 스타일 */
+.map-boundary-content { display: contents; }
+.map-error { border: 1px solid #dce5e9; border-radius: 9px; padding: 24px; background: white; min-width: 0; }
+.map-error h2 { font-size: 18px; }
+.map-error p { margin: 16px 0; line-height: 1.9; }
+.map-error button, .map-tile-status button { min-height: 44px; padding: 10px 14px; background: white; border: 1px solid #cfdde2; color: #087f83; }
+.map-tile-status { padding: 12px 0; font-size: 12px; line-height: 1.8; border-top: 1px solid #dce5e9; }
+.map-tile-status [role=alert] { color: #923b2b; }
+.map-tile-status p { margin: 0; }
+.map-tile-status .tile-received { margin-top: 5px; font-size: 11px; color: #536b7b; }
+.leaflet-marker-icon:focus-visible { outline: 3px solid #087f83; outline-offset: 4px; }
+button, input, summary, [tabindex] { scroll-margin-top: 100px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+@media (max-width: 760px) { .rescue-leaflet-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; } }

@@ -1,0 +1,4 @@
+﻿import type { TileStatus } from '../../hooks/useMapTiles'
+export function MapLoadingStatus({ status, onRetry }: { status: TileStatus; onRetry: () => void }) {
+  return <div className="map-tile-status"><p role={status.phase === 'error' ? 'alert' : 'status'}>{status.phase === 'loading' ? '지도 타일 불러오는 중' : status.phase === 'error' ? (status.failures ? `지도 타일 ${status.failures}개 로드 실패 · 일부 배경 지도가 누락될 수 있습니다.` : '지도 타일 응답 대기 시간 초과 · 네트워크를 확인하세요.') : 'OpenStreetMap 지도 타일 표시 완료'}</p>{status.phase === 'error' && <button type="button" onClick={onRetry}>지도 타일 다시 시도</button>}{status.receivedAt && <p className="tile-received">마지막 타일 수신: <time dateTime={status.receivedAt}>{new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', timeStyle: 'medium' }).format(new Date(status.receivedAt))} KST</time> · 원본 갱신 시각 아님</p>}</div>
+}
